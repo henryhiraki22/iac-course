@@ -1,0 +1,36 @@
+- hosts: terraform-ansible  
+  become: yes
+  tasks: 
+    - name: Update apt-get repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: install apache 2
+      apt: 
+        pkg: 
+        - apache2
+    - name: install nginx
+      apt:
+        pkg:
+        - nginx
+    - name: install net-tools
+      apt: 
+        pkg: 
+          - net-tools
+    - name: get rabbitMQ repository
+      action: shell wget -O - https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | apt-key add -
+    - name: add rabbitMQ repository
+      shell: echo "deb https://dl.bintray.com/rabbitmq/debian bionic main" > /etc/apt/sources.list.d/rabbitmq.list
+    - name: Update apt-get repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: install rabbitMQ
+      apt:
+        pkg:
+        - rabbitmq-server
+    - name: install webinterface of rabbitMQ
+      action: shell rabbitmqctl add_user admin santos00
+    - name: set account admin as administrator user of rabbitMQ
+      action: shell rabbitmqctl set_user_tags admin administrator
+    - name: set permissions for user rabbitMQ
+      action: shell rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+    - name: enable webinterface of rabbitMQ
+      action: shell sudo rabbitmq-plugins enable rabbitmq_management
+    
