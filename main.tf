@@ -18,6 +18,6 @@ resource "aws_instance" "app_server" {
     instance_type = "t2.micro"
     key_name = "ec2-saopaulo"
     tags = {
-        Name = "Teste aws"
+        Name = "aws-ansible-python"
     }
 }

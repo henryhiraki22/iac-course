@@ -5,6 +5,7 @@
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
+**/.hosts.yml/*
 
 # .tfstate files
 *.tfstate
